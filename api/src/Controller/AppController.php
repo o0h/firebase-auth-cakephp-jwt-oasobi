@@ -16,6 +16,7 @@ namespace App\Controller;
 
 use Cake\Controller\Controller;
 use Cake\Event\Event;
+use http\Client;
 
 /**
  * Application Controller
@@ -46,11 +47,15 @@ class AppController extends Controller
         ]);
         $this->loadComponent('Flash');
 
+        $keys = (new \Cake\Http\Client())
+            ->get('https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com')
+            ->getJson();
         $this->loadComponent('Auth', [
-            'storage' => 'Memory',
+            'storage' => 'Session',
             'authenticate' => [
                 'ADmad/JwtAuth.Jwt' => [
-                    'key' => /** どこ! */ null,
+                    'key' => $keys,
+                    'allowedAlgs' => ['RS256'],
                     'userModel' => 'Users',
                     'fields' => [
                         'username' => 'sub'
