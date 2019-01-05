@@ -1,0 +1,74 @@
+<html>
+
+<head>
+  <!-- Firebase App is always required and must be first -->
+  <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-app.js"></script>
+
+  <!-- Add additional services that you want to use -->
+  <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-messaging.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-functions.js"></script>
+
+  <!-- Comment out (or don't include) services that you don't want to use -->
+  <!-- <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-storage.js"></script> -->
+
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyDLOJYu9_sVk8evOBbCKHdOVjlgO3dp2d4",
+      authDomain: "o0h-oasobi.firebaseapp.com",
+      databaseURL: "https://o0h-oasobi.firebaseio.com",
+      projectId: "o0h-oasobi",
+      storageBucket: "o0h-oasobi.appspot.com",
+      messagingSenderId: "968110282743"
+    };
+    firebase.initializeApp(config);
+
+    function reg() {
+      const email = document.getElementsByName('email')[0].value
+      const password = document.getElementsByName('password')[0].value
+      firebase.auth().createUserWithEmailAndPassword(email, password).catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert(errorMessage)
+      })
+      event.preventDefault()
+    }
+    function login() {
+      const email = document.getElementsByName('loginEmail')[0].value
+      const password = document.getElementsByName('loginPassword')[0].value
+      firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert(errorMessage)
+      })
+      event.preventDefault()
+    }
+    firebase.auth().onAuthStateChanged(function (user) {
+      console.log(user || 'not logged-in')
+    })
+  </script>
+</head>
+
+<body>
+  <form name="reg">
+    <legend>reg</legend>
+    <input type="text" name="email">
+    <input type="password" name="password">
+    <button id="regButton">reg</button>
+  </form>
+  <form name="login">
+    <legend>login</legend>
+    <input type="text" name="loginEmail">
+    <input type="password" name="loginPassword">
+    <button id="loginButton">login</button>
+  </form>
+  <script>
+    document.getElementById('regButton').addEventListener('click', () => reg())
+    document.getElementById('loginButton').addEventListener('click', () => login())
+  </script>
+</body>
+
+</html>
