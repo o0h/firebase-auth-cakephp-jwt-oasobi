@@ -23,3 +23,11 @@
 /app/Config/core.php
 /app/Config/database.php
 /vendors/*
+
+# Firebase
+/functions/*
+/database.rules.json
+/firebase-debug.log
+/firestore.indexes.json
+/firestore.rules
+/storage.rules
