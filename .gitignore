@@ -31,3 +31,6 @@
 /firestore.indexes.json
 /firestore.rules
 /storage.rules
+
+# infra
+database/*

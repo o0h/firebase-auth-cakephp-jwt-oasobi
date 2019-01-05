@@ -1,0 +1,43 @@
+version: '3'
+services:
+  web:
+    container_name: fiebase-auth-cakephp-jwt-oasobi
+    image: mycakephp_web
+    build: ./.docker/web
+    volumes:
+      - ./api/:/app:cached
+      - ./.docker/web/etc_php_conf_xdebug.ini:/etc/php.d/xdebug.ini:cached
+    working_dir: /app
+    ports:
+      - "8101:8101"
+    environment:
+      LANG: ja_JP.UTF-8
+      TZ: Asia/Tokyo
+      COMPOSER_HOME: "/app/vendor/.composer_home"
+      DATABASE_URL: mysql://my_app:secret@my-app-db/my_app
+      PHP_IDE_CONFIG: serverName=PHP_MY_APP
+    command: "bin/cake server -H 0.0.0.0 -p 8101"
+  phpunit:
+    container_name: my-app-phpunit
+    image : mycakephp_web:latest
+    volumes:
+      - ./api/:/app:cached
+      - ./.docker/web/etc_php_conf_xdebug.ini:/etc/php.d/xdebug.ini:cached
+    working_dir: /app
+    environment:
+      LANG: ja_JP.UTF-8
+      TZ: Asia/Tokyo
+      DATABASE_URL: mysql://my_app:secret@my-app-db/my_app
+      PHP_IDE_CONFIG: serverName=PHP_MY_APP
+  db:
+    image: mysql:5
+    ports:
+      - "3306:3306"
+    container_name: my-app-db
+    environment:
+      MYSQL_DATABASE: my_app
+      MYSQL_USER: my_app
+      MYSQL_PASSWORD: secret
+      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+    volumes:
+      - ./database:/var/lib/mysql:cached
