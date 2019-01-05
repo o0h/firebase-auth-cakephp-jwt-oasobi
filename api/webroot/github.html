@@ -1,0 +1,46 @@
+<html>
+
+<head>
+  <!-- Firebase App is always required and must be first -->
+  <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-app.js"></script>
+
+  <!-- Add additional services that you want to use -->
+  <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-messaging.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-functions.js"></script>
+
+  <!-- Comment out (or don't include) services that you don't want to use -->
+  <!-- <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-storage.js"></script> -->
+
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyDLOJYu9_sVk8evOBbCKHdOVjlgO3dp2d4",
+      authDomain: "o0h-oasobi.firebaseapp.com",
+      databaseURL: "https://o0h-oasobi.firebaseio.com",
+      projectId: "o0h-oasobi",
+      storageBucket: "o0h-oasobi.appspot.com",
+      messagingSenderId: "968110282743"
+    };
+    firebase.initializeApp(config);
+
+    const provider = new firebase.auth.GithubAuthProvider();
+    firebase.auth().signInWithPopup(provider).then((result) => {
+      firebase.auth().currentUser.getIdToken(true).then((idToken) => {
+        const xhr = new XMLHttpRequest()
+        xhr.open('POST', '/api/users/signup.json')
+        xhr.setRequestHeader('Authorization', `Bearer ${idToken}`)
+        xhr.send()
+      })
+    }).catch((error) => {
+      alert(error.message)
+    })
+  </script>
+</head>
+
+<body>
+</body>
+
+</html>
