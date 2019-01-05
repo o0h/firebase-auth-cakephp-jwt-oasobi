@@ -55,7 +55,12 @@ Router::scope('/', function (RouteBuilder $routes) {
      * Apply a middleware to the current route scope.
      * Requires middleware to be registered via `Application::routes()` with `registerMiddleware()`
      */
-    $routes->applyMiddleware('csrf');
+    //$routes->applyMiddleware('csrf');
+
+    $routes->prefix('api', function (RouteBuilder $routes) {
+        $routes->addExtensions(['json']);
+        $routes->post('/users/signup', ['controller' => 'Users', 'action' => 'add', 'prefix' => 'api']);
+    });
 
     /**
      * Here, we are connecting '/' (base path) to a controller called 'Pages',
